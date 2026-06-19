@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 1100" role="img" aria-label="Placeholder paciente sorrindo">
+  <rect width="900" height="1100" fill="#F6ECD9"/>
+  <rect x="18" y="18" width="864" height="1064" rx="16" fill="none" stroke="#DAC79D" stroke-width="3" stroke-dasharray="14 12"/>
+  <circle cx="450" cy="440" r="130" fill="#E7D9BD"/>
+  <text x="450" y="620" text-anchor="middle" font-family="Lora, serif" font-size="40" fill="#6E5C45">Paciente sorrindo</text>
+  <text x="450" y="676" text-anchor="middle" font-family="sans-serif" font-size="26" fill="#89591F">[PLACEHOLDER · 900×1100]</text>
+</svg>

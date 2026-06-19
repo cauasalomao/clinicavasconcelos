@@ -7,6 +7,17 @@ desktop.ini
 # Servidor local de desenvolvimento (conveniência; não publicar)
 serve.ps1
 
+# Arquivos-fonte de mídia na raiz (originais pesados) — o site usa as versões
+# otimizadas em assets/. Ignorados apenas na raiz; assets/ continua versionado.
+/*.pdf
+/*.png
+/*.PNG
+/*.jpg
+/*.jpeg
+/*.webp
+/*.heic
+/*.HEIC
+
 # Claude
 CLAUDE.md
 .claude/

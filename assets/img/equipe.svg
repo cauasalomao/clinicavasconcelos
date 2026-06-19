@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 800" role="img" aria-label="Placeholder equipe da clínica">
+  <rect width="1200" height="800" fill="#F6ECD9"/>
+  <rect x="18" y="18" width="1164" height="764" rx="16" fill="none" stroke="#DAC79D" stroke-width="3" stroke-dasharray="14 12"/>
+  <circle cx="500" cy="330" r="90" fill="#E7D9BD"/>
+  <circle cx="700" cy="330" r="90" fill="#E7D9BD"/>
+  <text x="600" y="480" text-anchor="middle" font-family="Lora, serif" font-size="40" fill="#6E5C45">Equipe especializada</text>
+  <text x="600" y="534" text-anchor="middle" font-family="sans-serif" font-size="26" fill="#89591F">[PLACEHOLDER · 1200×800]</text>
+</svg>

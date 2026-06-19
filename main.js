@@ -87,6 +87,87 @@
   }
 
   /* ---------------------------------------------------------------------
+     5) Modal de agendamento — o formulário monta a mensagem e encaminha
+        para o WhatsApp da clínica (com nome/telefone/e-mail). Mantém UTM.
+        Só roda em páginas que têm o modal (#lead-modal/.modal); inofensivo
+        nas demais.
+     ------------------------------------------------------------------- */
+  var WA_NUMBER = '5512996665043';
+
+  function wireLeadForm() {
+    var modal = document.getElementById('agendar') || document.querySelector('.modal');
+    if (!modal) return;
+    var form = modal.querySelector('#lead-form, form');
+    var lastFocused = null;
+
+    function focusables() {
+      return modal.querySelectorAll('button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])');
+    }
+    function openForm(trigger) {
+      lastFocused = trigger || document.activeElement;
+      modal.hidden = false;
+      document.body.classList.add('modal-open');
+      var first = modal.querySelector('input, button');
+      if (first) first.focus();
+    }
+    function closeForm() {
+      if (modal.hidden) return;
+      modal.hidden = true;
+      document.body.classList.remove('modal-open');
+      if (lastFocused && lastFocused.focus) lastFocused.focus();
+    }
+
+    // abrir: qualquer elemento com [data-open-form]
+    document.querySelectorAll('[data-open-form]').forEach(function (el) {
+      el.addEventListener('click', function (e) {
+        e.preventDefault();
+        openForm(el);
+      });
+    });
+    // fechar: backdrop, botão de fechar
+    modal.querySelectorAll('[data-close-form]').forEach(function (el) {
+      el.addEventListener('click', closeForm);
+    });
+    // teclado: Esc fecha, Tab fica preso no modal
+    document.addEventListener('keydown', function (e) {
+      if (modal.hidden) return;
+      if (e.key === 'Escape') { closeForm(); return; }
+      if (e.key === 'Tab') {
+        var f = focusables(); if (!f.length) return;
+        var first = f[0], last = f[f.length - 1];
+        if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last.focus(); }
+        else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
+      }
+    });
+
+    // enviar: monta a mensagem e abre o WhatsApp
+    if (form) {
+      form.addEventListener('submit', function (e) {
+        e.preventDefault();
+        if (!form.checkValidity()) { form.reportValidity(); return; }
+        var data = new FormData(form);
+        var nome = (data.get('nome') || '').toString().trim();
+        var tel = (data.get('telefone') || '').toString().trim();
+        var email = (data.get('email') || '').toString().trim();
+
+        var msg = 'Olá! Vim pelo site e gostaria de agendar uma avaliação de implante.'
+          + '\n\nNome: ' + nome
+          + '\nWhatsApp: ' + tel
+          + '\nE-mail: ' + email;
+
+        var url = new URL('https://wa.me/' + WA_NUMBER);
+        url.searchParams.set('text', msg);
+        campaignParams().forEach(function (val, key) { url.searchParams.set(key, val); });
+
+        trackLeadClick('form');
+        var win = window.open(url.toString(), '_blank');
+        if (!win) window.location.href = url.toString(); // fallback se popup bloqueado
+        closeForm();
+      });
+    }
+  }
+
+  /* ---------------------------------------------------------------------
      Init
      ------------------------------------------------------------------- */
   function init() {
@@ -94,6 +175,7 @@
     wireConversionTracking();
     wireFaq();
     wireReveal();
+    wireLeadForm();
   }
 
   if (document.readyState === 'loading') {
