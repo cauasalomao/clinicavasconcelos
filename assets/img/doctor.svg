@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 800" role="img" aria-label="Placeholder da foto da Dra. Renata">
+  <rect width="800" height="800" fill="#F6ECD9"/>
+  <rect x="16" y="16" width="768" height="768" rx="16" fill="none" stroke="#DAC79D" stroke-width="3" stroke-dasharray="14 12"/>
+  <circle cx="400" cy="330" r="120" fill="#E7D9BD"/>
+  <text x="400" y="500" text-anchor="middle" font-family="Lora, serif" font-size="34" fill="#6E5C45">Dra. Renata Vasconcelos</text>
+  <text x="400" y="552" text-anchor="middle" font-family="sans-serif" font-size="24" fill="#89591F">[PLACEHOLDER · 800×800]</text>
+</svg>

@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 600" role="img" aria-label="Placeholder bolsa térmica com gelo">
+  <rect width="600" height="600" fill="#F6ECD9"/>
+  <rect x="14" y="14" width="572" height="572" rx="14" fill="none" stroke="#DAC79D" stroke-width="3" stroke-dasharray="12 10"/>
+  <text x="300" y="300" text-anchor="middle" font-family="Lora, serif" font-size="28" fill="#6E5C45">Bolsa térmica</text>
+  <text x="300" y="344" text-anchor="middle" font-family="sans-serif" font-size="20" fill="#89591F">[600×600]</text>
+</svg>

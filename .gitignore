@@ -1,0 +1,12 @@
+# Sistema
+.DS_Store
+Thumbs.db
+desktop.ini
+*.tmp
+
+# Servidor local de desenvolvimento (conveniência; não publicar)
+serve.ps1
+
+# Claude
+CLAUDE.md
+.claude/
