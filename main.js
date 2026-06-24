@@ -87,6 +87,35 @@
   }
 
   /* ---------------------------------------------------------------------
+     4b) Carrossel de avaliações (§6) — scroll-snap nativo + setas.
+         Desabilita as setas nas extremidades. Inofensivo se não houver.
+     ------------------------------------------------------------------- */
+  function wireReviewsCarousel() {
+    document.querySelectorAll('.reviews__carousel').forEach(function (carousel) {
+      var track = carousel.querySelector('[data-reviews-track]');
+      if (!track) return;
+      var prev = carousel.querySelector('[data-reviews-prev]');
+      var next = carousel.querySelector('[data-reviews-next]');
+
+      function step() {
+        var card = track.querySelector('.review');
+        var gap = parseFloat(getComputedStyle(track).gap) || 16;
+        return card ? card.getBoundingClientRect().width + gap : track.clientWidth * 0.85;
+      }
+      function update() {
+        var max = track.scrollWidth - track.clientWidth - 2;
+        if (prev) prev.disabled = track.scrollLeft <= 0;
+        if (next) next.disabled = track.scrollLeft >= max;
+      }
+      if (prev) prev.addEventListener('click', function () { track.scrollBy({ left: -step(), behavior: 'smooth' }); });
+      if (next) next.addEventListener('click', function () { track.scrollBy({ left: step(), behavior: 'smooth' }); });
+      track.addEventListener('scroll', function () { window.requestAnimationFrame(update); });
+      window.addEventListener('resize', update);
+      update();
+    });
+  }
+
+  /* ---------------------------------------------------------------------
      5) Modal de agendamento — o formulário monta a mensagem e encaminha
         para o WhatsApp da clínica (com nome/telefone/e-mail). Mantém UTM.
         Só roda em páginas que têm o modal (#lead-modal/.modal); inofensivo
@@ -175,6 +204,7 @@
     wireConversionTracking();
     wireFaq();
     wireReveal();
+    wireReviewsCarousel();
     wireLeadForm();
   }
 

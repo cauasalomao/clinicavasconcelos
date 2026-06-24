@@ -36,7 +36,8 @@
   --tap: 48px; /* alvo de toque mínimo */
   --maxw: 1160px;
   --gutter: clamp(1.25rem, 5vw, 3rem);
-  --section-y: clamp(3.5rem, 9vw, 6.5rem);
+  --section-y: clamp(4rem, 9.5vw, 7.5rem);
+  --card-gap: clamp(1.25rem, 2.6vw, 2rem);
 }
 
 /* ---------- Reset ---------- */
@@ -72,12 +73,13 @@ ul, ol { list-style: none; padding: 0; }
 }
 
 /* ---------- Tipografia ---------- */
-h1, h2, h3 { font-family: var(--font-display); font-weight: 600; line-height: 1.18; color: var(--text); }
+h1, h2, h3 { font-family: var(--font-display); font-weight: 600; line-height: 1.18; color: var(--text); text-wrap: balance; }
+p, .lead { text-wrap: pretty; }
 h1 { font-size: clamp(2.1rem, 6vw, 3.6rem); letter-spacing: -0.01em; }
 h2 { font-size: clamp(1.7rem, 4.4vw, 2.7rem); }
 h3 { font-size: clamp(1.25rem, 2.6vw, 1.5rem); }
 p { color: var(--text); }
-.lead { font-size: clamp(1.15rem, 2.4vw, 1.35rem); color: var(--text-muted); }
+.lead { font-size: clamp(1.15rem, 2.4vw, 1.35rem); line-height: 1.6; color: var(--text-muted); }
 
 .eyebrow {
   font-family: var(--font-body);
@@ -87,6 +89,7 @@ p { color: var(--text); }
   font-size: 0.82rem;
   color: var(--gold-deep);      /* único dourado permitido em texto */
   display: inline-flex; align-items: center; gap: 0.55rem;
+  margin-bottom: 0.9rem;        /* respiro até o título (reset zera margens) */
 }
 /* "pílula" decorativa do eyebrow — toque acolhedor */
 .eyebrow::before {
@@ -99,9 +102,10 @@ p { color: var(--text); }
 .container { width: 100%; max-width: var(--maxw); margin-inline: auto; padding-inline: var(--gutter); }
 .section { padding-block: var(--section-y); }
 .section--warm { background: var(--surface-warm); }
-.section__head { max-width: 780px; margin-bottom: clamp(2rem, 5vw, 3rem); }
+.section__head { max-width: 780px; margin-bottom: clamp(2.4rem, 5.5vw, 3.5rem); }
 .section--center .section__head { margin-inline: auto; text-align: center; }
 .section--center .section__head .divider { margin-inline: auto; }
+.section__head .lead { margin-top: 1.3rem; }
 
 /* divisor de marca: linha fina com gold-gradient sob títulos (§5) */
 .divider {
@@ -147,15 +151,40 @@ p { color: var(--text); }
     radial-gradient(120% 90% at 100% 0%, rgba(206, 166, 78, 0.16) 0%, rgba(206, 166, 78, 0) 55%),
     var(--bg);
   padding-top: clamp(2.5rem, 6vw, 4rem);
+  padding-bottom: clamp(4rem, 10vw, 7.5rem);
 }
-.hero__grid { display: grid; gap: clamp(2rem, 5vw, 3.5rem); align-items: center; }
-.hero__title { margin-bottom: 1.1rem; }
-.hero__sub { margin-bottom: 1.8rem; max-width: 42ch; }
-.hero__trust {
-  display: flex; flex-wrap: wrap; gap: 0.5rem 1rem; align-items: center;
-  margin-top: 1.4rem; font-weight: 700; color: var(--text-muted); font-size: 0.98rem;
+.hero__grid { display: grid; gap: clamp(2.25rem, 5vw, 4rem); align-items: center; }
+.hero__title { margin-bottom: 1.25rem; }
+.hero__sub { margin-bottom: 2rem; max-width: 44ch; }
+.hero__badges {
+  display: grid; gap: 0.9rem;
+  grid-template-columns: 1fr;
+  margin-top: 2rem; padding-top: 1.7rem; border-top: 1px solid var(--border);
 }
-.hero__trust .dot { width: 6px; height: 6px; border-radius: 50%; background: var(--gold); }
+@media (min-width: 480px) { .hero__badges { grid-template-columns: 1fr 1fr; } }
+.trust-badge {
+  display: flex; align-items: center; gap: 0.85rem;
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: var(--radius-sm); padding: 0.85rem 1.15rem;
+  box-shadow: var(--shadow-sm);
+  transition: transform 0.2s ease, box-shadow 0.25s ease, border-color 0.25s ease;
+}
+.trust-badge:hover { transform: translateY(-3px); box-shadow: var(--shadow-md); border-color: var(--champagne); }
+.trust-badge__icon {
+  width: 44px; height: 44px; border-radius: 50%; flex: none;
+  display: grid; place-items: center; color: #fff; background: var(--gold-gradient);
+  box-shadow: 0 5px 14px rgba(181, 129, 47, 0.32);
+}
+.trust-badge__icon svg { width: 23px; height: 23px; }
+.trust-badge__text {
+  display: flex; flex-direction: column; gap: 0.1rem; line-height: 1.25;
+  font-size: 0.9rem; color: var(--text-muted); font-weight: 600;
+}
+.trust-badge__text strong {
+  font-family: var(--font-display); font-weight: 700;
+  font-size: 1.1rem; color: var(--primary); letter-spacing: -0.01em;
+  white-space: nowrap;
+}
 .hero__media {
   border-radius: var(--radius-lg); overflow: hidden; box-shadow: var(--shadow-md);
   border: 6px solid var(--surface); background: var(--surface-warm);
@@ -173,12 +202,12 @@ p { color: var(--text); }
 }
 
 /* ---------- Cards genéricos (cantos bem arredondados, hover elevando) ---------- */
-.cards { display: grid; gap: 1.5rem; }
+.cards { display: grid; gap: var(--card-gap); }
 @media (min-width: 760px) { .cards--3 { grid-template-columns: repeat(3, 1fr); } }
 
 .card {
   background: var(--surface); border: 1px solid var(--border);
-  border-radius: var(--radius); padding: 1.9rem; box-shadow: var(--shadow-sm);
+  border-radius: var(--radius); padding: clamp(1.9rem, 2.6vw, 2.4rem); box-shadow: var(--shadow-sm);
   height: 100%;
   transition: transform 0.2s ease, box-shadow 0.25s ease, border-color 0.25s ease;
 }
@@ -214,63 +243,117 @@ p { color: var(--text); }
 .identify__photo img { width: 100%; height: 100%; object-fit: cover; aspect-ratio: 9 / 11; }
 .identify__body { font-size: clamp(1.15rem, 2.6vw, 1.4rem); color: var(--text); max-width: 60ch; }
 .identify__close {
-  margin-top: 1.5rem; font-family: var(--font-display); font-size: clamp(1.25rem, 3vw, 1.7rem);
+  margin-top: 1.5rem; font-family: var(--font-display); font-size: clamp(1.15rem, 2.5vw, 1.45rem);
   color: var(--primary); max-width: 60ch;
 }
 @media (min-width: 860px) {
   .identify { grid-template-columns: 0.85fr 1.15fr; }
 }
+/* título da identificação um pouco menor p/ evitar "vida" órfão na última linha */
+.identify .section__head h2 { font-size: clamp(1.55rem, 3.7vw, 2.3rem); }
 
-/* ---------- Experiência Vasconcelos (§5) — galeria generosa dos 5 mimos ---------- */
-.exp__grid { display: grid; gap: 1.4rem; grid-template-columns: 1fr; }
-@media (min-width: 560px) { .exp__grid { grid-template-columns: repeat(2, 1fr); } }
-@media (min-width: 960px) {
-  .exp__grid { grid-template-columns: repeat(6, 1fr); }
-  /* layout em mosaico: dois cards grandes + três menores */
-  .exp__item:nth-child(1) { grid-column: span 3; }
-  .exp__item:nth-child(2) { grid-column: span 3; }
-  .exp__item:nth-child(3),
-  .exp__item:nth-child(4),
-  .exp__item:nth-child(5) { grid-column: span 2; }
+/* ---------- Experiência Vasconcelos (§5) — cards de mimos com ícones ---------- */
+.exp__cards {
+  display: flex; flex-wrap: wrap; justify-content: center; gap: var(--card-gap);
 }
-.exp__item {
+.exp-card {
+  flex: 1 1 280px; max-width: 340px;
   background: var(--surface); border: 1px solid var(--border);
-  border-radius: var(--radius); overflow: hidden; box-shadow: var(--shadow-sm);
-  display: flex; flex-direction: column;
-  transition: transform 0.2s ease, box-shadow 0.25s ease;
+  border-radius: var(--radius); padding: clamp(1.8rem, 2.5vw, 2.3rem);
+  box-shadow: var(--shadow-sm); text-align: center;
+  display: flex; flex-direction: column; align-items: center; gap: 0.45rem;
+  transition: transform 0.2s ease, box-shadow 0.25s ease, border-color 0.25s ease;
 }
-.exp__item:hover { transform: translateY(-6px); box-shadow: var(--shadow-lift); }
-.exp__item img { aspect-ratio: 16 / 11; object-fit: cover; width: 100%; }
-@media (min-width: 960px) {
-  .exp__item:nth-child(3) img,
-  .exp__item:nth-child(4) img,
-  .exp__item:nth-child(5) img { aspect-ratio: 1 / 1; }
+.exp-card:hover { transform: translateY(-6px); box-shadow: var(--shadow-lift); border-color: var(--champagne); }
+.exp-card__icon {
+  width: 64px; height: 64px; border-radius: 20px; margin-bottom: 0.6rem;
+  display: grid; place-items: center; color: #fff; background: var(--gold-gradient);
+  box-shadow: 0 6px 16px rgba(181, 129, 47, 0.32);
 }
-.exp__label {
-  padding: 1.05rem 1.2rem; font-weight: 700; font-size: 1rem; color: var(--text);
-  display: flex; gap: 0.6rem; align-items: flex-start;
-}
-.exp__label svg { width: 22px; height: 22px; color: var(--gold-deep); flex: none; margin-top: 2px; }
+.exp-card__icon svg { width: 32px; height: 32px; }
+.exp-card p { color: var(--text-muted); font-size: 0.98rem; }
 
-/* ---------- Prova social (§6) — card de reputação acolhedor ---------- */
-.reviews__widget {
-  background: var(--surface); border: 1px solid var(--border);
-  border-radius: var(--radius-lg); overflow: hidden; box-shadow: var(--shadow-sm);
-  display: grid; gap: 0; text-align: left; color: var(--text-muted);
-  max-width: 940px; margin-inline: auto;
+/* ---------- Prova social (§6) — avaliações reais do Google ---------- */
+.reviews__summary {
+  display: flex; align-items: center; justify-content: center; flex-wrap: wrap;
+  gap: 0.6rem 1.4rem; margin-bottom: clamp(2.2rem, 4.5vw, 3.2rem);
 }
-.reviews__photo { overflow: hidden; background: var(--surface-warm); }
-.reviews__photo img { width: 100%; height: 100%; object-fit: cover; aspect-ratio: 4 / 3; }
-.reviews__body { padding: clamp(1.8rem, 5vw, 3rem); display: grid; gap: 0.6rem; align-content: center; }
-.reviews__body strong { color: var(--text); }
-@media (min-width: 720px) { .reviews__widget { grid-template-columns: 0.9fr 1.1fr; } }
+.reviews__score {
+  font-family: var(--font-display); font-weight: 700; font-size: clamp(2.6rem, 6vw, 3.4rem);
+  color: var(--primary); line-height: 1;
+}
+.reviews__summary-text { display: flex; flex-direction: column; gap: 0.2rem; text-align: left; }
+.reviews__summary .reviews__stars { font-size: 1.3rem; }
+.reviews__count { color: var(--text-muted); font-size: 0.98rem; }
+.reviews__count strong { color: var(--text); }
+.reviews__cta { margin-left: 0.4rem; }
+.reviews__stars { color: var(--gold); letter-spacing: 2px; line-height: 1; }
+
+/* carrossel de avaliações */
+.reviews__carousel { position: relative; }
+.reviews__track {
+  display: flex; gap: var(--card-gap);
+  overflow-x: auto; scroll-snap-type: x mandatory;
+  scroll-behavior: smooth; scroll-padding: 0 var(--gutter);
+  padding: 0.5rem 0.5rem 1.2rem; margin: 0 -0.5rem;
+  -webkit-overflow-scrolling: touch; scrollbar-width: none;
+}
+.reviews__track::-webkit-scrollbar { display: none; }
+.review {
+  flex: 0 0 auto; width: min(88%, 360px); scroll-snap-align: center;
+  background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius);
+  padding: 1.7rem 1.7rem 1.8rem; box-shadow: var(--shadow-sm); text-align: left;
+  transition: transform 0.2s ease, box-shadow 0.25s ease, border-color 0.25s ease;
+}
+@media (min-width: 640px) { .review { width: min(46%, 360px); } }
+@media (min-width: 980px) { .review { width: min(31.5%, 340px); } }
+.review:hover { transform: translateY(-4px); box-shadow: var(--shadow-md); border-color: var(--champagne); }
+/* setas de navegação */
+.reviews__nav {
+  position: absolute; top: 50%; transform: translateY(-50%); z-index: 2;
+  width: 48px; height: 48px; border-radius: 50%;
+  display: grid; place-items: center;
+  background: var(--surface); color: var(--primary);
+  border: 1px solid var(--border); box-shadow: var(--shadow-md);
+  transition: transform 0.18s ease, box-shadow 0.22s ease, background-color 0.2s ease, opacity 0.2s ease;
+}
+.reviews__nav:hover { background: var(--surface-warm); transform: translateY(-50%) scale(1.06); }
+.reviews__nav svg { width: 24px; height: 24px; }
+.reviews__nav--prev { left: -8px; }
+.reviews__nav--next { right: -8px; }
+.reviews__nav[disabled] { opacity: 0; pointer-events: none; }
+@media (min-width: 1240px) {
+  .reviews__nav--prev { left: -22px; }
+  .reviews__nav--next { right: -22px; }
+}
+@media (max-width: 560px) { .reviews__nav { display: none; } }
+.review__head { display: flex; align-items: center; gap: 0.8rem; margin-bottom: 0.7rem; }
+.review__avatar {
+  width: 46px; height: 46px; border-radius: 50%; flex: none;
+  display: grid; place-items: center; color: #fff;
+  font-family: var(--font-display); font-weight: 700; font-size: 1.2rem;
+  background: var(--gold-gradient); box-shadow: 0 4px 12px rgba(181, 129, 47, 0.3);
+}
+.review__name { font-weight: 800; color: var(--text); line-height: 1.2; }
+.review__meta { font-size: 0.85rem; color: var(--text-muted); }
+.review .review__stars { display: block; font-size: 1.05rem; margin-bottom: 0.55rem; }
+.review__text { color: var(--text-muted); font-size: 1rem; }
 
 /* ---------- Timeline / Como funciona (§7) ---------- */
-.steps { display: grid; gap: 1.5rem; counter-reset: step; }
-@media (min-width: 760px) { .steps { grid-template-columns: repeat(4, 1fr); } }
+.steps { display: grid; gap: var(--card-gap); counter-reset: step; position: relative; }
+@media (min-width: 760px) {
+  .steps { grid-template-columns: repeat(4, 1fr); }
+  /* conector de timeline: visível só nos vãos entre os cards, na altura dos números */
+  .steps::before {
+    content: ""; position: absolute; z-index: 0;
+    top: calc(1.9rem + 24px); left: 12.5%; right: 12.5%; height: 2px;
+    background: linear-gradient(90deg, var(--champagne), var(--gold) 50%, var(--champagne));
+    opacity: 0.7;
+  }
+}
 .step {
   background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius);
-  padding: 1.8rem 1.5rem; box-shadow: var(--shadow-sm); position: relative;
+  padding: 1.9rem 1.6rem; box-shadow: var(--shadow-sm); position: relative; z-index: 1;
   transition: transform 0.2s ease, box-shadow 0.25s ease;
 }
 .step:hover { transform: translateY(-6px); box-shadow: var(--shadow-lift); }
@@ -282,7 +365,7 @@ p { color: var(--text); }
 }
 .step__num::before { content: counter(step); }
 .step p { color: var(--text-muted); }
-.steps__cta { margin-top: 2.6rem; text-align: center; }
+.steps__cta { margin-top: clamp(2.6rem, 5vw, 3.6rem); text-align: center; }
 
 /* ---------- FAQ accordion (§8) ---------- */
 .faq { max-width: 820px; margin-inline: auto; display: grid; gap: 1rem; text-align: left; }
@@ -326,7 +409,7 @@ p { color: var(--text); }
   border-radius: var(--radius-sm); overflow: hidden;
   border: 4px solid var(--surface); box-shadow: var(--shadow-sm); max-width: 240px;
 }
-.authority__photo img { width: 100%; height: auto; }
+.authority__photo img { width: 100%; height: 100%; object-fit: cover; object-position: 50% 12%; aspect-ratio: 1 / 1; }
 .authority__name { font-family: var(--font-display); font-size: 1.45rem; color: var(--primary); margin-bottom: 0.3rem; }
 .authority__cro { font-weight: 800; color: var(--gold-deep); letter-spacing: 0.04em; }
 .authority p { color: var(--text-muted); margin-top: 0.6rem; }
@@ -335,11 +418,11 @@ p { color: var(--text); }
 /* ---------- Rodapé acolhedor (§5: fundo espresso, texto creme) ---------- */
 .footer { background: var(--primary); color: var(--surface-warm); padding-block: clamp(3rem, 7vw, 4.5rem); }
 .footer a { color: var(--gold-bright); }
-.footer__grid { display: grid; gap: 2.4rem; }
+.footer__grid { display: grid; gap: clamp(2.4rem, 4vw, 3.4rem); }
 @media (min-width: 720px) { .footer__grid { grid-template-columns: 1fr 1fr; } }
 @media (min-width: 1000px) { .footer__grid { grid-template-columns: 1fr 1fr 1.2fr; align-items: start; } }
 .footer__col { min-width: 0; }
-.footer__logo img { height: 66px; margin-bottom: 1.2rem; }
+.footer__logo img { height: 66px; width: auto; margin-bottom: 1.2rem; }
 .footer h3 { color: #fff; font-size: 1.18rem; margin-bottom: 0.8rem; }
 .footer p { color: var(--surface-warm); margin-bottom: 0.5rem; }
 .footer__micro { color: #E9DDC4; margin-bottom: 1.2rem; }
